@@ -1,7 +1,17 @@
 import { Label, Form, SubmitButton } from './AddContactForm.styled';
-export const AddContactForm = ({ handleFunction }) => {
+
+export const AddContactForm = ({ addFunction }) => {
   return (
-    <Form onSubmit={handleFunction}>
+    <Form
+      onSubmit={event => {
+        event.preventDefault();
+        addFunction({
+          name: event.target.name.value,
+          number: event.target.number.value,
+        });
+        event.target.reset();
+      }}
+    >
       <Label>
         {' '}
         Name:

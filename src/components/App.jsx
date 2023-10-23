@@ -14,14 +14,12 @@ export class App extends Component {
         { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
         { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
       ],
-      name: '',
+
       filter: '',
     };
   }
-  formHandler = event => {
-    event.preventDefault();
-    const name = event.target.name.value;
-    const number = event.target.number.value;
+  addContact = contact => {
+    const { name } = contact;
     if (this.state.contacts.some(contact => contact.name === name)) {
       return alert(`${name} is already in contacts`);
     }
@@ -29,14 +27,11 @@ export class App extends Component {
       contacts: [
         ...prevState.contacts,
         {
+          ...contact,
           id: nanoid(),
-          name: name,
-          number: number,
         },
       ],
     }));
-
-    event.target.reset();
   };
   filterContacts = () => {
     const { contacts, filter } = this.state;
@@ -62,7 +57,7 @@ export class App extends Component {
     return (
       <div>
         <h1>Phonebook</h1>
-        <AddContactForm handleFunction={this.formHandler} />
+        <AddContactForm addFunction={this.addContact} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} handleFunction={this.handlefilter} />
         <ContactsList
